@@ -7,7 +7,8 @@ const TabelUtang = ({ daftarTagihan, formatRupiah }) => {
         <h3 className="font-extrabold text-slate-800 dark:text-white text-lg transition-colors">Daftar Tagihan & Klaim</h3>
       </div>
       
-      <div className="hidden md:block overflow-x-auto">
+      {/* TAMPILAN 1: TABEL FULL UNTUK PC (Layar Besar) */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-700/50 text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider transition-colors">
@@ -67,7 +68,8 @@ const TabelUtang = ({ daftarTagihan, formatRupiah }) => {
         </table>
       </div>
 
-      <div className="md:hidden flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50 transition-colors">
+      {/* TAMPILAN 2: LIST CARD UNTUK TABLET/HP (Layar Sempit) */}
+      <div className="block lg:hidden flex-col divide-y divide-slate-100 dark:divide-slate-700/50 transition-colors">
         {daftarTagihan.length > 0 ? (
           daftarTagihan.map((item) => {
             const parts = item.kategori.split(' - ');
@@ -79,37 +81,46 @@ const TabelUtang = ({ daftarTagihan, formatRupiah }) => {
               : "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-500/20";
 
             return (
-              <div key={item.id} className="p-5 flex flex-col gap-3 hover:bg-slate-50/30 dark:hover:bg-slate-700/20 transition-colors">
+              <div key={item.id} className="p-4 sm:p-5 flex flex-col gap-3 hover:bg-slate-50/30 dark:hover:bg-slate-700/20 transition-colors">
+                
+                {/* Baris Atas: Jenis & Status */}
                 <div className="flex justify-between items-start gap-2">
-                  <div className="flex flex-col items-start gap-1.5">
-                    <span className={`px-2 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-widest transition-colors ${badgeClass}`}>
-                      {jenisTagihan}
-                    </span>
-                    <h4 className="font-bold text-slate-800 dark:text-slate-200 text-[15px] leading-tight transition-colors">{item.namaPihak}</h4>
-                  </div>
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-widest transition-colors ${badgeClass}`}>
+                    {jenisTagihan}
+                  </span>
                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold whitespace-nowrap transition-colors ${
-                    item.status === 'Lunas' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20' : 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-200/60 dark:border-orange-500/20'
+                    item.status === 'Lunas' 
+                      ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20' 
+                      : 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-200/60 dark:border-orange-500/20'
                   }`}>
                     {item.status}
                   </span>
                 </div>
                 
-                <div className="flex justify-between items-end mt-1">
+                {/* Baris Tengah: Nama Pihak & Spesifik Kategori */}
+                <div className="flex flex-col items-start gap-0.5">
+                  <h4 className="font-bold text-slate-800 dark:text-slate-200 text-sm sm:text-[15px] leading-tight transition-colors">{item.namaPihak}</h4>
+                  <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 transition-colors">{spesifik}</p>
+                </div>
+                
+                {/* Baris Bawah: Tanggal & Harga */}
+                <div className="flex justify-between items-end mt-1 pt-3 border-t border-slate-50 dark:border-slate-700/30">
                   <div className="flex flex-col gap-0.5">
-                    <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 transition-colors">{spesifik}</p>
-                    <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 transition-colors">Jatuh Tempo: {item.jatuhTempo}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 transition-colors">Jatuh Tempo</p>
+                    <p className="text-xs font-bold text-slate-600 dark:text-slate-300 transition-colors">{item.jatuhTempo}</p>
                   </div>
                   <div className="text-right">
-                    <p className={`font-black text-sm transition-colors ${jenisTagihan === 'Piutang' ? 'text-blue-600 dark:text-blue-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                    <p className={`font-black text-base transition-colors ${jenisTagihan === 'Piutang' ? 'text-blue-600 dark:text-blue-400' : 'text-rose-600 dark:text-rose-400'}`}>
                       {formatRupiah(item.jumlah)}
                     </p>
                   </div>
                 </div>
+
               </div>
             );
           })
         ) : (
-          <div className="py-10 text-center text-slate-400 dark:text-slate-500 font-medium">Belum ada data tagihan.</div>
+          <div className="py-10 text-center text-slate-400 dark:text-slate-500 font-medium text-sm">Belum ada data tagihan.</div>
         )}
       </div>
 
