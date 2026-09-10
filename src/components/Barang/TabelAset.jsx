@@ -3,12 +3,12 @@ import React from 'react';
 const TabelAset = ({ daftarAset, formatRupiah }) => {
   return (
     <div className="bg-white dark:bg-slate-800 rounded-[1.25rem] shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden transition-colors duration-300">
-      <div className="p-5 md:p-6 border-b border-slate-100 dark:border-slate-700/50 transition-colors">
-        <h3 className="font-extrabold text-slate-800 dark:text-white text-lg">Daftar Inventaris Aset</h3>
+      <div className="p-5 md:p-6 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center transition-colors">
+        <h3 className="font-extrabold text-slate-800 dark:text-white text-lg transition-colors">Daftar Inventaris Aset</h3>
       </div>
       
-      {/* Tampilan Desktop (Tabel) */}
-      <div className="hidden md:block overflow-x-auto">
+      {/* TAMPILAN 1: TABEL FULL UNTUK PC (Layar Besar) */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-700/50 text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider transition-colors">
@@ -76,8 +76,8 @@ const TabelAset = ({ daftarAset, formatRupiah }) => {
         </table>
       </div>
 
-      {/* Tampilan Mobile (Card View) */}
-      <div className="md:hidden flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50 transition-colors">
+      {/* TAMPILAN 2: LIST CARD UNTUK TABLET/HP (Layar Sempit kayak S11 lu) */}
+      <div className="block lg:hidden flex-col divide-y divide-slate-100 dark:divide-slate-700/50 transition-colors">
         {daftarAset.length > 0 ? (
           daftarAset.map((aset) => {
             const parts = aset.kategori.split(' - ');
@@ -96,14 +96,13 @@ const TabelAset = ({ daftarAset, formatRupiah }) => {
             }
 
             return (
-              <div key={aset.id} className="p-5 flex flex-col gap-3 hover:bg-slate-50/30 dark:hover:bg-slate-700/20 transition-colors">
+              <div key={aset.id} className="p-4 sm:p-5 flex flex-col gap-3 hover:bg-slate-50/30 dark:hover:bg-slate-700/20 transition-colors">
+                
+                {/* Baris Atas: Kategori Utama & Kondisi */}
                 <div className="flex justify-between items-start gap-2">
-                  <div className="flex flex-col items-start gap-1.5">
-                    <span className={`px-2 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-widest transition-colors ${badgeClass}`}>
-                      {mainCategory}
-                    </span>
-                    <h4 className="font-bold text-slate-800 dark:text-slate-200 text-[15px] leading-tight transition-colors">{aset.nama}</h4>
-                  </div>
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-widest transition-colors ${badgeClass}`}>
+                    {mainCategory}
+                  </span>
                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold whitespace-nowrap transition-colors ${
                     aset.kondisi === 'Baik' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20' : 
                     aset.kondisi === 'Rusak' ? 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-500/20' :
@@ -113,21 +112,29 @@ const TabelAset = ({ daftarAset, formatRupiah }) => {
                   </span>
                 </div>
                 
-                <div className="flex justify-between items-end mt-1">
+                {/* Baris Tengah: Nama Aset & Sub-Kategori */}
+                <div className="flex flex-col items-start gap-0.5">
+                  <h4 className="font-bold text-slate-800 dark:text-slate-200 text-sm sm:text-[15px] leading-tight transition-colors">{aset.nama}</h4>
+                  <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 transition-colors">{subCategory}</p>
+                </div>
+                
+                {/* Baris Bawah: Tanggal & Nilai Perolehan */}
+                <div className="flex justify-between items-end mt-1 pt-3 border-t border-slate-50 dark:border-slate-700/30">
                   <div className="flex flex-col gap-0.5">
-                    <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 transition-colors">{subCategory}</p>
-                    <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 transition-colors">{aset.tanggalPerolehan}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 transition-colors">Tgl. Perolehan</p>
+                    <p className="text-xs font-bold text-slate-600 dark:text-slate-300 transition-colors">{aset.tanggalPerolehan}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-bold text-slate-400 dark:text-slate-500 mb-0.5 transition-colors">Nilai Perolehan</p>
-                    <p className="font-black text-slate-800 dark:text-white text-sm transition-colors">{formatRupiah(aset.nilaiPerolehan)}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 transition-colors mb-0.5">Nilai Perolehan</p>
+                    <p className="font-black text-slate-800 dark:text-white text-base transition-colors">{formatRupiah(aset.nilaiPerolehan)}</p>
                   </div>
                 </div>
+
               </div>
             );
           })
         ) : (
-          <div className="py-10 text-center text-slate-400 dark:text-slate-500 font-medium">Belum ada data aset tercatat.</div>
+          <div className="py-10 text-center text-slate-400 dark:text-slate-500 font-medium text-sm">Belum ada data aset tercatat.</div>
         )}
       </div>
 
