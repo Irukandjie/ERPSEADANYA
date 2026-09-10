@@ -17,7 +17,6 @@ const Dashboard = ({ onLogout }) => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [toast, setToast] = useState({ isOpen: false, message: '' });
   
-  // STATE ANIMASI & DARK MODE
   const [isDarkMode, setIsDarkMode] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('tema-erp') === 'dark' : false);
   const [isTransitioning, setIsTransitioning] = useState(true); 
   const [nextTheme, setNextTheme] = useState(() => typeof window !== 'undefined' ? (localStorage.getItem('tema-erp') === 'dark' ? 'dark' : 'light') : 'light');
@@ -42,9 +41,6 @@ const Dashboard = ({ onLogout }) => {
     setTimeout(() => setIsTransitioning(false), 950); 
   };
 
-  // =========================================================
-  // MASTER STATE KEUANGAN (DISENTRALISASI DI SINI!)
-  // =========================================================
   const [transactions, setTransactions] = useState([
     { id: 1, tanggal: '2026-09-01', deskripsi: 'Modal Awal', tipe: 'Pemasukan Kas - Tunai', kategori: 'Modal', jumlah: 2000000000 },
     { id: 2, tanggal: '2026-09-05', deskripsi: 'Pembelian Aset RS', tipe: 'Pengeluaran Kas - Tunai', kategori: 'Investasi', jumlah: 975000000 },
@@ -96,7 +92,7 @@ const Dashboard = ({ onLogout }) => {
         <ScrollNav />
         <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 
-        <div className="flex-1 flex flex-col h-screen overflow-y-auto relative">
+        <div className="flex-1 flex flex-col h-[100dvh] overflow-y-auto relative">
           <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-40 px-5 md:px-8 py-4 flex justify-between items-center shadow-sm transition-colors duration-300">
             <h2 className="text-2xl font-black text-slate-800 dark:text-white capitalize tracking-tight transition-colors">{activeMenu.replace('-', ' ')}</h2>
             <div className="flex items-center gap-3">
@@ -119,36 +115,51 @@ const Dashboard = ({ onLogout }) => {
             <div key={activeMenu} className="animate-ios-slide max-w-[1600px] mx-auto">
               {activeMenu === 'dashboard' ? (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-8">
-                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-colors duration-300">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h6 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1.5">Total Saldo</h6>
-                          <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">{formatRupiah(saldo)}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-8">
+                    
+                    {/* Kartu 1: Total Saldo */}
+                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-colors duration-300">
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="flex-1 break-words">
+                          <h6 className="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Total Saldo</h6>
+                          <h3 className="text-xl md:text-xl lg:text-2xl xl:text-3xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">{formatRupiah(saldo)}</h3>
                         </div>
-                        <div className="p-3 bg-blue-50 dark:bg-blue-500/20 rounded-2xl text-blue-600 dark:text-blue-400"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div className="p-2.5 md:p-3 bg-blue-50 dark:bg-blue-500/20 rounded-2xl text-blue-600 dark:text-blue-400 flex-shrink-0">
+                          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
                       </div>
                     </div>
-                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-colors duration-300">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h6 className="text-emerald-500 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest mb-1.5">Pemasukan</h6>
-                          <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">{formatRupiah(totalPemasukan)}</h3>
+                    
+                    {/* Kartu 2: Pemasukan */}
+                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-colors duration-300">
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="flex-1 break-words">
+                          <h6 className="text-emerald-500 dark:text-emerald-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Pemasukan</h6>
+                          <h3 className="text-xl md:text-xl lg:text-2xl xl:text-3xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">{formatRupiah(totalPemasukan)}</h3>
                         </div>
-                        <div className="p-3 bg-emerald-50 dark:bg-emerald-500/20 rounded-2xl text-emerald-500 dark:text-emerald-400"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+                        <div className="p-2.5 md:p-3 bg-emerald-50 dark:bg-emerald-500/20 rounded-2xl text-emerald-500 dark:text-emerald-400 flex-shrink-0">
+                          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                        </div>
                       </div>
                     </div>
-                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-colors duration-300">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h6 className="text-rose-500 dark:text-rose-400 text-xs font-bold uppercase tracking-widest mb-1.5">Pengeluaran</h6>
-                          <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">{formatRupiah(totalPengeluaran)}</h3>
+
+                    {/* Kartu 3: Pengeluaran */}
+                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-colors duration-300 md:col-span-2 lg:col-span-1">
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="flex-1 break-words">
+                          <h6 className="text-rose-500 dark:text-rose-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Pengeluaran</h6>
+                          <h3 className="text-xl md:text-xl lg:text-2xl xl:text-3xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">{formatRupiah(totalPengeluaran)}</h3>
                         </div>
-                        <div className="p-3 bg-rose-50 dark:bg-rose-500/20 rounded-2xl text-rose-500 dark:text-rose-400"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" /></svg></div>
+                        <div className="p-2.5 md:p-3 bg-rose-50 dark:bg-rose-500/20 rounded-2xl text-rose-500 dark:text-rose-400 flex-shrink-0">
+                          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" /></svg>
+                        </div>
                       </div>
                     </div>
+
                   </div>
+
                   <ChartGrafik transactions={transactions} />
+                  
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
                     <ChartAset formatRupiah={formatRupiah} />
                     <ChartUtang formatRupiah={formatRupiah} />
