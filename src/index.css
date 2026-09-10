@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================
+   CUSTOM SCROLLBAR (LIGHT & DARK MODE)
+   ========================================== */
+
+/* Ukuran lebar & tinggi scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Background jalur scrollbar (Light Mode) */
+::-webkit-scrollbar-track {
+  background: #f8fafc; /* slate-50 */
+}
+
+/* Batang scrollbar (Light Mode) */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 10px;
+}
+
+/* Batang scrollbar pas di-hover (Light Mode) */
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
+
+/* ------------------------------------------
+   DARK MODE SCROLLBAR
+   ------------------------------------------ */
+
+/* Background jalur scrollbar (Dark Mode) */
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a; /* slate-900 (Sesuai background dashboard) */
+}
+
+/* Batang scrollbar (Dark Mode) */
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155; /* slate-700 */
+  border-radius: 10px;
+}
+
+/* Batang scrollbar pas di-hover (Dark Mode) */
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569; /* slate-600 */
+}
+
+/* MAGIC TRICK: Memaksa elemen bawaan browser (seperti dropdown bawaan) jadi gelap */
+.dark {
+  color-scheme: dark;
+}
+/* ==========================================
+   CELESTIAL TRANSITION EFFECT (SUN & MOON)
+   ========================================== */
+.celestial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ==========================================
+   CELESTIAL TRANSITION EFFECT (CINEMATIC & ELEGANT)
+   ========================================== */
+.celestial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  backdrop-filter: blur(12px); /* Efek kaca elegan / frosted glass */
+}
+
+/* Background overlay menyesuaikan mode dengan transparansi premium */
+.celestial-overlay.light-sky {
+  background-color: rgba(248, 250, 252, 0.85); /* slate-50 */
+}
+.celestial-overlay.dark-sky {
+  background-color: rgba(15, 23, 42, 0.9); /* slate-900 */
+}
+
+/* Animasi overlay memudar masuk & keluar dengan smooth */
+@keyframes cinematicSky {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Animasi Bulan/Matahari meluncur elegan (tanpa bouncy/muter) */
+@keyframes cinematicCelestial {
+  0% { transform: translateY(40px) scale(0.85); opacity: 0; }
+  30% { transform: translateY(0) scale(1); opacity: 1; }
+  70% { transform: translateY(0) scale(1.1); opacity: 1; }
+  100% { transform: translateY(-30px) scale(1.2); opacity: 0; }
+}
+
+.animate-sky-elegant {
+  animation: cinematicSky 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-celestial-elegant {
+  animation: cinematicCelestial 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
