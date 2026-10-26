@@ -1,3 +1,8 @@
+# Frontend ERPnya belum Sempurna kalau perlu dirubah bilang aja, gw ngerjain bagian FE, Biarlu Ga kecapekan!
+
+
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
